@@ -31,6 +31,7 @@
  */
 
     const express = require('express');
+    const bodyParser = require('body-parser')
     const fs = require('fs');
     const datasource = './data/users.json';
     
@@ -67,22 +68,25 @@
       })
     })
     
+    var jsonParser = bodyParser.json()
+
     // POST
-    server.post('/api/users', (req, res) => {
+    server.post('/api/users', jsonParser, (req, res) => {
       fs.readFile(datasource, 'utf8', (err, data) => {
         if (err) {
           console.log(err);
         }
     
-        const updatedData = [req, ...JSON.parse(data)];
-        // TODO: El ruteo lo resuelve, pero hay un problema con el manejo del file al momento de escribir.
+        const formattedData = JSON.parse(data)
+        const updatedData = [...formattedData, req.body]
+    
         fs.writeFile(datasource, JSON.stringify(updatedData, null, 2), (err) => {
           if (err) {
             console.log(err);
           }
-    
-          return res.json(JSON.parse(updatedData));
-        })
+          
+          return res.send(updatedData);
+        });
       })
     })
 
