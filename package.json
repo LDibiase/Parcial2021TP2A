@@ -1,0 +1,16 @@
+{
+    "name": "api-rest",
+    "version": "1.0.0",
+    "description": "RESTful API",
+    "main": "index.js",
+    "scripts": {
+        "start": "node optPregunta6.js"
+    },
+    "keywords": [],
+    "author": "Lucas Di Biase",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-generator": "^4.16.1"
+    }
+}

@@ -29,3 +29,61 @@
     }
  *
  */
+
+    const express = require('express');
+    const fs = require('fs');
+    const datasource = './data/users.json';
+    
+    // Create the server
+    const server = express();
+    
+    // The server will listen from port 8085
+    const port = 8085;
+    server.listen(port, () => console.log('Server running on port 8085'));
+    
+    /* RESTful API METHODS */
+    
+    // GET
+    server.get('/api/users', (_req, res) => {
+      fs.readFile(datasource, 'utf8', (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+    
+        return res.json(JSON.parse(data));
+      })
+    })
+    
+    // GET User
+    server.get('/api/users/:id', (req, res) => {
+      fs.readFile(datasource, 'utf8', (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+    
+        const aux = [...JSON.parse(data)];
+        const index = aux.findIndex(({ id }) => id == parseInt(req.params.id, 10))
+        return res.json(aux[index]);
+      })
+    })
+    
+    // POST
+    server.post('/api/users', (req, res) => {
+      fs.readFile(datasource, 'utf8', (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+    
+        const updatedData = [req, ...JSON.parse(data)];
+        // TODO: El ruteo lo resuelve, pero hay un problema con el manejo del file al momento de escribir.
+        fs.writeFile(datasource, JSON.stringify(updatedData, null, 2), (err) => {
+          if (err) {
+            console.log(err);
+          }
+    
+          return res.json(JSON.parse(updatedData));
+        })
+      })
+    })
+
+    
