@@ -8,15 +8,23 @@
  */
 
  const inventory = {
-    shoes: 10,
-    socks: 6,
-    shirts: 10,
-    pants: 5,
-  }
-
-const sale = function (article, cant){
-  
+  shoes: 10,
+  socks: 6,
+  shirts: 10,
+  pants: 5,
 }
+
+const sale = function (article, cant) {
+  const currentCant = inventory[article]
+
+  if (currentCant >= cant) {
+    inventory[article] = currentCant - cant
+    return 200
+  }
+  
+  return 500
+};
+
 
 // TESTS (no modificar)
 console.log(sale('shoes',8) === 200 && inventory.shoes === 2);
